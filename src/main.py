@@ -1,12 +1,15 @@
 from fastapi import FastAPI, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
-from pydantic import BaseModel, EmailStr, AnyUrl, Field
-from typing import List, Optional
+import shutil
+from pathlib import Path
 import asyncio
 import os
 
+from src.ai.agent import get_file_content
+from src.core.model import Attachment, ClientTask, FileContent
 from src.core.logger import logger
+from src.core.github import create_new_repo, enable_github_pages, create_or_update_file, get_all_files_url, get_output_data, uploade_all_public_file_from_local_directory
 from src.core.send_eval import send_evaluation
 logger.info("Fresh Starting")
 logger.info("")
@@ -30,20 +33,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class Attachment(BaseModel):
-    name: str = Field(..., description="Filename, e.g., sample.png")
-    url: str = Field(..., description="Data URI or file link")
-
-class ClientTask(BaseModel):
-    email: EmailStr
-    secret: str
-    task: str
-    round: int
-    evaluation_url: AnyUrl
-    nonce: Optional[str] = None
-    brief: Optional[str] = None
-    checks: Optional[List[str] | str] = None
-    attachments: Optional[List[Attachment]] = None
 
 async def timeouttest(t):
     await asyncio.sleep(t)
@@ -56,12 +45,25 @@ async def background_job(client_task: ClientTask):
 
         # Start the Github Task based on round value
         try:
-            await asyncio.wait_for(timeouttest(10), timeout=5)
-            if client_task.round == 1:
-                pass  # new_data = await asyncio.wait_for(build_githubpages_app(client_task), timeout=540) # 9min
-            else:
-                pass  # new_data = await asyncio.wait_for(update_githubpages_app(client_task), timeout=540) # 9min
-            new_data = { "repo_url": "...", "commit_sha": "...","pages_url": "..."}
+            public_path = Path(__file__).parent.parent / "public"
+            if public_path.exists():
+                shutil.rmtree(public_path)
+                print(f"Deleted: {public_path}")
+            public_path.mkdir(exist_ok=True)
+            
+
+            new_repo_name = "test_" + client_task.task
+            await create_new_repo(new_repo_name)
+
+            list_file = await get_file_content(client_task=client_task)
+            for file in list_file:
+                await create_or_update_file(repo_name=new_repo_name, file_path=file.path, file_content=file.content, commit_message=file.commit_message)
+
+            await uploade_all_public_file_from_local_directory(path=public_path, repo_name=new_repo_name)
+
+            await enable_github_pages(new_repo_name)
+
+            new_data = await get_output_data(new_repo_name)
             logger.info("Sending newly created application data")
         except asyncio.TimeoutError:
             new_data = {  # Fallback Data

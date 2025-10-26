@@ -182,6 +182,109 @@ async def create_or_update_file(
     finally:
         g.close()
 
+async def uploade_all_public_file_from_local_directory(path: str, repo_name: str) -> Dict[str, str]:
+    """
+    Upload all files from a local directory to a GitHub repository.
+    Recursively walks through the directory and uploads all files.
+    
+    Args:
+        path: Local directory path to upload from
+        repo_name: Name of the repository to upload to
+    
+    Returns:
+        {"message": "uploaded", "count": "X"} - Files uploaded successfully
+        {"message": "failed"} - Operation failed
+    
+    Example:
+        >>> uploade_all_public_file_from_local_directory("./my-project", "my-repo")
+        {"message": "uploaded", "count": "5"}
+    
+    Note:
+        - Automatically detects text vs binary files
+        - Creates directory structure in repo matching local structure
+        - Skips hidden files and common ignore patterns (.git, __pycache__, etc.)
+    """
+    import os
+    
+    g = Github(auth=Auth.Token(token))
+    
+    try:
+        user = g.get_user()
+        repo = user.get_repo(repo_name)
+        
+        # Patterns to skip
+        skip_patterns = {'.git', '__pycache__', '.DS_Store', 'node_modules', '.env', '.venv'}
+        
+        uploaded_count = 0
+        
+        # Walk through local directory
+        for root, dirs, files in os.walk(path):
+            # Remove skip patterns from dirs to prevent recursing into them
+            dirs[:] = [d for d in dirs if d not in skip_patterns]
+            
+            for filename in files:
+                # Skip hidden files and unwanted patterns
+                if filename.startswith('.') or filename in skip_patterns:
+                    continue
+                
+                local_file_path = os.path.join(root, filename)
+                
+                # Calculate relative path for GitHub
+                relative_path = os.path.relpath(local_file_path, path)
+                # Normalize path separators for GitHub (use forward slash)
+                github_path = relative_path.replace(os.sep, '/')
+                
+                try:
+                    # Read file content
+                    # Try reading as text first
+                    try:
+                        with open(local_file_path, 'r', encoding='utf-8') as f:
+                            content = f.read()
+                    except (UnicodeDecodeError, UnicodeError):
+                        # If text read fails, read as binary
+                        with open(local_file_path, 'rb') as f:
+                            content = f.read()
+                    
+                    # Check if file exists in repo
+                    try:
+                        existing_file = repo.get_contents(github_path, ref="main")
+                        # Update existing file
+                        repo.update_file(
+                            path=existing_file.path,
+                            message=f"Update {github_path}",
+                            content=content,
+                            sha=existing_file.sha,
+                            branch="main"
+                        )
+                        logger.info(f"Updated: {github_path}")
+                    except UnknownObjectException:
+                        # Create new file
+                        repo.create_file(
+                            path=github_path,
+                            message=f"Add {github_path}",
+                            content=content,
+                            branch="main"
+                        )
+                        logger.info(f"Created: {github_path}")
+                    
+                    uploaded_count += 1
+                    
+                except Exception as e:
+                    logger.warning(f"Failed to upload {github_path}: {e}")
+                    continue
+        
+        logger.info(f"uploade_all_public_file_from_local_directory(path={path}, repo={repo_name}): uploaded {uploaded_count} files")
+        return {"message": "uploaded", "count": str(uploaded_count)}
+        
+    except GithubException as e:
+        logger.error(f"GitHub API error on uploade_all_public_file_from_local_directory(path={path}, repo={repo_name}): {e.status} - {e.message}")
+        return {"message": "failed"}
+    except Exception as e:
+        logger.error(f"Unexpected error on uploade_all_public_file_from_local_directory(path={path}, repo={repo_name}): {e}")
+        return {"message": "failed"}
+    finally:
+        g.close()
+
 
 async def get_all_files_url(repo_name: str) -> Dict[str, str]:
     """
