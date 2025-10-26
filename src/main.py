@@ -45,17 +45,17 @@ async def background_job(client_task: ClientTask):
 
         # Start the Github Task based on round value
         try:
-            public_path = Path(__file__).parent.parent / "public"
+            public_path = Path(__file__).parent.parent / "public" / client_task.task
             if public_path.exists():
                 shutil.rmtree(public_path)
                 print(f"Deleted: {public_path}")
-            public_path.mkdir(exist_ok=True)
+            public_path.mkdir(parents=True, exist_ok=True)
             
 
             new_repo_name = "test_" + client_task.task
             await create_new_repo(new_repo_name)
 
-            list_file = await get_file_content(client_task=client_task)
+            list_file = await get_file_content(client_task=client_task, public_path=public_path)
             for file in list_file:
                 await create_or_update_file(repo_name=new_repo_name, file_path=file.path, file_content=file.content, commit_message=file.commit_message)
 

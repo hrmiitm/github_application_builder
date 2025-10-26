@@ -24,3 +24,4 @@ class FileContent(BaseModel):
     path: str = Field(..., description="file path")
     content: str = Field(..., description="file content")
     commit_message: str 
+
