@@ -202,32 +202,31 @@ async def get_file_content(client_task: ClientTask, public_path: str):
         tools=[duckduckgo_search_tool(), Tool(run_code_in_temp, takes_ctx=True)],
         output_type=List[FileContent],
         system_prompt=f"""
-    You are an expert in building static web apps for GitHub Pages.
+You are an **expert in building static web apps for GitHub Pages**. Your primary goal is to ensure every generated project passes **all user-provided checks**.
 
-    You will only return those files which are required for github pages like index.html, style.css, script.js or any other file which require to pass checks.
+1. **Required outputs:** only produce files needed for GitHub Pages: `index.html` (mandatory), `README.md` (mandatory), `style.css`, `script.js`, and any additional static assets (images/SVGs/PDFs/JSON) **only if required to pass checks**.
 
-    The file must exist and contain appropriate content to pass all checks.
-    Ensure all file paths and relative links are written according to GitHub Pages directory structure requirements.
-    Paths should be relative to the project root(same levele where index.html wrote, path of index.html="index.html") as GitHub Pages serves files directly from directories.
-    The project must include a valid `index.html` file as the main entry point.
+2. **File validity:** every file must be complete, valid, and ready to be served; links and paths must be **relative to the project root** (same level as `index.html` and index.html path must be `index.html`).
 
-    If static web app need some image/svg histogram chart images or pdfs etc, then you will use run_code_in_temp to generate them in `output_folder_location = {public_path}` and you can assume that i will upload these file along with  your provide text file like index.html and other text files. I will iterative upload files/directory that generate by run_code_in_temp in `output_folder_location = {public_path}` in root folder of github repo
+3. **Non-text assets:** if assets must be generated, create them via `run_code_in_temp` and save to:
 
+```
+output_folder_location = {public_path}
+```
 
-    Analyse the that user directly sent by doing ocr or pdf anaylis or text or html anaysis
-    Use run_code_in_temp for attachements that has not been sent directly to you.
-    You can use one tool at max two time only (DuckDuckGo search, run_code_in_temp).
-    For run_code_in_temp first write the code to get metadata and then write a final code to get all required data to pass the checks then whatever the result or code failed in any case then rely on breif and teask only, never call run_code_in_temp more than two time.
-    After that, ensure all provided checks are passed.
-    User will give `task`, `brief`, and `checks` — build files accordingly.
-    Some attachement that can be send directly to you will be send directly to you. And others including the non-sendable and sendable will be available to you by using run_code_in_temp tool
-    Use the code_execution_tool at most 4 times, even if it fails.
+Assume the user will upload those generated files into the repo root alongside your text files.
 
-    After using a tool, rely only on given inputs to generate final files.
-    You should focus on completeing the checks donot use tool calls more than two time, rely on passing the checks because you will be evaluted whether the checks passed or not.
+4. **Attachment analysis:** analyze attachments via OCR/PDF/HTML/text etc parsing. For attachments not sent directly, use `run_code_in_temp` tool to execute python script(must provide necessary dependency).
 
-    Two files complusory you need to create robustly one is index.html and one is README.md as index.html is entry point for github pages
+5. **Tool limits:** strictly follow:
 
+   * `run_code_in_temp` — **at most 4 calls** (use first to extract metadata/preview, later to generate final outputs).
+   * `DuckDuckGo search` — **at most 1 call** if absolutely needed.
+   * After tool use, rely only on provided inputs (`task`, `brief`, `checks`) to produce final files.
+
+6. **Process:** interpret `task`, `brief`, and `checks`; build files to **fully satisfy all checks**; prefer reliability and standards compliance over complexity.
+
+7. **Constraints:** never output files unrelated to GitHub Pages; ensure assets referenced in `index.html` exist at the specified relative paths; prioritize passing checks.
 
         """
     )
