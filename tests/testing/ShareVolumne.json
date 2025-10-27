@@ -1,0 +1,36 @@
+{
+  "email": "22f3002460@ds.study.iitm.ac.in",
+  "secret": "s",
+  "task": "ShareVolume",
+  "round": 1,
+  "evaluation_url": "http://localhost:8787/evaluate",
+  "nonce": "019a2530-e570-7496-8bf5-46d73aa1848c",
+  "brief": "Your assigned company: Biogen (BIIB), CIK 0000875045.\n\nFetch https://data.sec.gov/api/xbrl/companyconcept/CIK0000875045/dei/EntityCommonStockSharesOutstanding.json (set a descriptive User-Agent per SEC guidance).\nRead `.entityName`. Filter `.units.shares[]` for entries whose `fy` > \"2020\" and\nincludes a numeric `val`.\nSave `data.json` with this structure:\n`{\"entityName\": \"Biogen\", \"max\": {\"val\": ..., \"fy\": ...}, \"min\": {\"val\": ..., \"fy\": ...}}`\nwhere `max` and `min` refer to the highest and lowest `.val`. Break ties however you like.\n\nRender a visually appealing `index.html` where:\n- `<title>` and `<h1>` must include the live `entityName`.\n- The max/min figures are clearly marked with these IDs:\n  `share-entity-name`,\n  `share-max-value`, `share-max-fy`,\n  `share-min-value`, `share-min-fy`.\n\nIf the page is opened as `index.html?CIK=0001018724` (or any other 10-digit CIK),\n`fetch()` from the SEC endpoint for that CIK using any proxy, e.g. AIPipe,\nreplace every ID listed above and the title and H1 without reloading the page.\n\nAlso commit the attachment uid.txt as-is.",
+  "checks": [
+    "Each required file exists on GitHub",
+    "uid.txt matches the attached uid.txt",
+    "LICENSE contains the MIT License text",
+    "data.json exists and is valid JSON",
+    "data.json has 'entityName' field matching 'Biogen'",
+    "data.json has 'max' object with 'val' (number) and 'fy' (string) fields",
+    "data.json has 'min' object with 'val' (number) and 'fy' (string) fields",
+    "data.json max.fy and min.fy are both > '2020'",
+    "data.json max.val is greater than or equal to min.val",
+    "index.html exists",
+    "index.html <title> contains the entityName from data.json",
+    "index.html <h1 id='share-entity-name'> contains the entityName from data.json",
+    "index.html contains element with id='share-max-value' displaying max.val",
+    "index.html contains element with id='share-max-fy' displaying max.fy",
+    "index.html contains element with id='share-min-value' displaying min.val",
+    "index.html contains element with id='share-min-fy' displaying min.fy",
+    "index.html fetches data.json using fetch('https://data.sec.gov/api/xbrl/companyconcept/CIK0000875045/dei/EntityCommonStockSharesOutstanding.json')",
+    "index.html supports ?CIK= query parameter to fetch alternate company data",
+    "index.html dynamically updates all elements when ?CIK= is provided"
+  ],
+  "attachments": [
+    {
+      "name": "uid.txt",
+      "url": "data:text/plain;base64,MTA2NjMwMjgyNzMyNjk5MTIyMzkyNjUxMDYzNTMzMTA4MjUzMTE5NzEwNzQxMTExNjU0MDcxNzg0ODA1NTEyODA1MjE1NDA4MTA3NzU2"
+    }
+  ]
+}

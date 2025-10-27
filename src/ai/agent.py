@@ -268,7 +268,7 @@ Assume the user will upload those generated files into the repo root alongside y
         {client_task.brief}
         --------------
         -----checks-----
-        {client_task.brief}
+        {client_task.checks}
         --------------
         -----attachements directly sent to you(not required run_code_in_temp tool call-----
         {sendable_attachement_list}

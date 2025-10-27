@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 import shutil
 from pathlib import Path
+import json
 import asyncio
 import os
 
@@ -152,8 +153,11 @@ async def home():
 async def task(client_task: ClientTask, background_tasks: BackgroundTasks):
 
     # Log the client data
+    
     logger.info(f"=====New task received | Email={client_task.email} | Round={client_task.round} | Task={client_task.task}=====")
-    logger.info(f"=====Full task data=====\n{client_task.model_dump_json(indent=2)}\n===============")
+    checks= client_task.checks
+    logger.info(f"=====Full task data=====\n{json.dumps(client_task.model_dump(mode='json', exclude_none=True), indent=2)}\n----checks={checks}\n===============")
+
 
 
     # Verify secret
