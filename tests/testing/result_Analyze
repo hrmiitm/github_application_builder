@@ -1,0 +1,15 @@
+22f3002460@ds.study.iitm.ac.in hrmiitm/test_Analyze 8845062a6508966d537b3f985b1239c4365cf30e Analyze
+        1.0 execute.py exists execute.py: HTTP 200
+        1.0 data.csv exists data.csv: HTTP 200
+        1.0 .github/workflows/ci.yml exists .github/workflows/ci.yml: HTTP 200
+        1.0 execute.py typo fixed (no "revenew") """Process sales data and output summary JSON. Reads data.csv fr
+        1.0 data.csv matches data.xlsx columns and values equal
+        1.0 CI YAML is valid YAML 
+        1.0 ruff appears in a step 
+        1.0 execute.py appears in a step 
+        1.0 Pages deploy present 
+        0.0 CI logs include ruff output 
+        0.0 CI logs show execute.py ran 
+        0.0 CI logs mention result.json 
+        0.0 Page serves result.json HTTP 404
+TOTAL 9.0/13

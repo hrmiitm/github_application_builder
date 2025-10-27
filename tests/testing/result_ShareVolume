@@ -1,0 +1,54 @@
+From https://github.com/hrmiitm/test_ShareVolume
+ * branch            2321e82e9aef194d3050cfdb5f48bd383ba0a812 -> FETCH_HEAD
+HEAD is now at 2321e82 Add LICENSE
+        1.0 uid.txt exists uid.txt: HTTP 200
+        1.0 LICENSE exists LICENSE: HTTP 200
+        1.0 data.json exists data.json: HTTP 200
+        1.0 index.html exists index.html: HTTP 200
+        1.0 GitHub Pages files all present
+        1.0 LICENSE has is hereby granted  2025 ShareVolume  Permission is hereby granted, free of charge, to any perso
+        1.0 uid.txt has matching UID 106630282732699122392651063533108253119710741111654071784805512805215408107756
+        1.0 data.json is JSON 
+        1.0 data.json is JSON {   "entityName": "Biogen",   "max": {     "val": 25000000,     
+        1.0 data.json: entityName value Is 'Biogen'. Want 'Biogen'
+        1.0 data.json: max.val value Is 25000000. Want <class 'int'>
+        1.0 data.json: max.fy value Is '2023'. Want <class 'str'>
+        1.0 data.json: min.val value Is 18000000. Want <class 'int'>
+        1.0 data.json: min.fy value Is '2021'. Want <class 'str'>
+        1.0 data.json .max.fy is in range 2023
+        1.0 data.json .min.fy is in range 2021
+        1.0 data.json max.val >= min.val 25000000 >= 18000000
+        1.0 index.html is valid HTML 
+        1.0 index.html: //title exists 
+        1.0 index.html: //title = <class 'str'> 
+        0.0 index.html <title> matches company name Biogen — ShareVolume != Biogen
+        1.0 index.html: //h1[@id='share-entity-name'] exists 
+        1.0 index.html: //h1[@id='share-entity-name'] = <class 'str'> 
+        1.0 index.html <h1[@id='share-entity-name']> matches company name Biogen != Biogen
+        1.0 index.html: //title exists 
+        1.0 index.html: //title = <class 'str'> 
+        1.0 index.html: //h1[@id='share-entity-name'] exists 
+        1.0 index.html: //h1[@id='share-entity-name'] = <class 'str'> 
+        1.0 index.html: //*[@id='share-max-value'] exists 
+        0.0 index.html: //*[@id='share-max-value'] = <class 'int'> ValueError("invalid literal for int() with base 10: 
+'25,000,000'")
+        1.0 index.html: //*[@id='share-max-fy'] exists 
+        1.0 index.html: //*[@id='share-max-fy'] = <class 'str'> 
+        1.0 index.html: //*[@id='share-min-value'] exists 
+        0.0 index.html: //*[@id='share-min-value'] = <class 'int'> ValueError("invalid literal for int() with base 10: 
+'18,000,000'")
+        1.0 index.html: //*[@id='share-min-fy'] exists 
+        1.0 index.html: //*[@id='share-min-fy'] = <class 'str'> 
+        1.0 data.json is JSON 
+        1.0 data.json is JSON {   "entityName": "Biogen",   "max": {     "val": 25000000,     
+        0.0 data.json: entityName value Is 'Biogen'. Want 'Biogen — ShareVolume'
+        1.0 data.json: entityName value Is 'Biogen'. Want 'Biogen'
+        0.0 data.json: max.val value Is 25000000. Want '<missing>'
+        1.0 data.json: max.fy value Is '2023'. Want '2023'
+        0.0 data.json: min.val value Is 18000000. Want '<missing>'
+        1.0 data.json: min.fy value Is '2021'. Want '2021'
+        0.0 index.html uses fetch() 
+        0.0 index.html mentions endpoint 
+        1.0 index.html handles ?CIK= 
+        0.0 index.html llm eval OpenAI error: 'choices'
+TOTAL 39.0/48

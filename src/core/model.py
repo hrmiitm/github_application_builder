@@ -21,7 +21,7 @@ class FileContent(BaseModel):
     """
     File content is required for building the static web page for github pages to pass checks
     """
-    path: str = Field(..., description="file path")
-    content: str = Field(..., description="file content")
+    path: str = Field(..., description="file path") # index.html
+    content: str = Field(..., description="file content") # <doctype...
     commit_message: str 
 

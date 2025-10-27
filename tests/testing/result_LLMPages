@@ -1,0 +1,52 @@
+22f3002460@ds.study.iitm.ac.in hrmiitm/test_LLMPages 7c4ff6060b9b3ad72bf48003f59c38d33abd06ba LLMPages
+        1.0 uid.txt exists uid.txt: HTTP 200
+        1.0 LICENSE exists LICENSE: HTTP 200
+        1.0 index.html exists index.html: HTTP 200
+        1.0 ashravan.txt exists ashravan.txt: HTTP 200
+        1.0 dilemma.json exists dilemma.json: HTTP 200
+        1.0 about.md exists about.md: HTTP 200
+        1.0 pelican.svg exists pelican.svg: HTTP 200
+        1.0 restaurant.json exists restaurant.json: HTTP 200
+        1.0 prediction.json exists prediction.json: HTTP 200
+        1.0 GitHub Pages files all present
+        1.0 LICENSE has is hereby granted (c) 2025 LLMPages  Permission is hereby granted, free of charge, to any perso
+        1.0 uid.txt has matching UID 106630282732699122392651063533108253119710741111654071784805512805215408107756
+        1.0 index.html has ashravan.txt >     <ul>       <li><a href="ashravan.txt" download>ashravan.txt</a> — 
+        1.0 index.html has dilemma.json its).</li>       <li><a href="dilemma.json" download>dilemma.json</a> — 
+        1.0 index.html has about.md wers.</li>       <li><a href="about.md" download>about.md</a> — Thre
+        1.0 index.html has pelican.svg tion.</li>       <li><a href="pelican.svg" target="_blank">pelican.svg<
+        1.0 index.html has restaurant.json ent).</li>       <li><a href="restaurant.json" download>restaurant.json</a>
+        1.0 index.html has prediction.json elhi.</li>       <li><a href="prediction.json" download>prediction.json</a>
+        0.0 story word count is 300-400 439 words
+        1.0 ashravan.txt has Ashravan  laid the final stroke across Ashravan's chest, the shell of silence
+        1.0 ashravan.txt has Shai  surprising moral turn.  When Shai laid the final stroke across 
+        0.0 story_llm_grade OpenAI error: 'choices'
+        1.0 dilemma.json is JSON 
+        1.0 dilemma.json is JSON {   "people": 3,   "case_1": {     "swerve": true,     "reason":
+        1.0 dilemma.json: people value Is 3. Want 3
+        1.0 dilemma.json: case_1.swerve value Is True. Want <class 'bool'>
+        1.0 dilemma.json: case_1.reason value Is 'Minimize overall harm: striking one person reduces total casual. Want 
+<class 'str'>
+        1.0 dilemma.json: case_2.swerve value Is True. Want <class 'bool'>
+        1.0 dilemma.json: case_2.reason value Is 'If the single person is a child and the other two are confirmed. Want 
+<class 'str'>
+        1.0 about.md: 3 words 3
+        1.0 pelican.svg is valid XML 
+        1.0 pelican.svg is <svg> <{http://www.w3.org/2000/svg}svg>
+        0.0 pelican.svg llm eval OpenAI error: 'choices'
+        1.0 restaurant.json is JSON 
+        1.0 restaurant.json is JSON {   "city": "Delhi",   "lat": 28.6505,   "long": 77.2310,   "nam
+        1.0 restaurant.json: city value Is 'Delhi'. Want 'Delhi'
+        1.0 restaurant.json: lat value Is 28.6505. Want <class 'float'>
+        1.0 restaurant.json: long value Is 77.231. Want <class 'float'>
+        1.0 restaurant.json: name value Is "Karim's". Want <class 'str'>
+        1.0 restaurant.json: what_to_eat value Is 'Mutton burra, kebabs, nihari'. Want <class 'str'>
+        1.0 restaurant.json < 50km 4.6km from 28.6139, 77.209
+        1.0 prediction.json is JSON 
+        1.0 prediction.json is JSON {   "rate": 0.0425,   "reason": "Forecast assumes gradual easing
+        1.0 prediction.json: rate value Is 0.0425. Want <class 'float'>
+        1.0 prediction.json: reason value Is 'Forecast assumes gradual easing from mid-2024 highs as inflatio. Want <class 
+'str'>
+        1.0 prediction.json rate is in range 0.0425
+        0.0 prediction.json llm eval OpenAI error: 'choices'
+TOTAL 43.0/47
